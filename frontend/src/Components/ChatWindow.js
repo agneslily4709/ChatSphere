@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React from 'react'
 import { ChatWindowContainer } from '../styles'
 import ChatInput from './ChatInput'
@@ -24,4 +25,30 @@ const ChatWindow = ({currentchat,chatMsgs}) => {
   )
 }
 
+=======
+import React from 'react'
+import { ChatWindowContainer } from '../styles'
+import ChatInput from './ChatInput'
+
+const ChatWindow = ({currentchat}) => {
+    console.log(currentchat)
+    const handleMsgSend = (msg) => {
+
+    }
+  return (
+    <>
+    {currentchat && (
+          <ChatWindowContainer>
+          <img className='profile-pic' src={currentchat.avatarImage+".png"} alt='Not found'/>
+            <h1>{currentchat.username}</h1>
+          <div className='chat-messages'>
+              <ChatInput handleMsgSend={handleMsgSend}/>
+          </div>
+      </ChatWindowContainer>
+    )}
+    </>
+  )
+}
+
+>>>>>>> 7884c5567a33a00e3bdf1ae0e1acec48e83242f2
 export default ChatWindow
