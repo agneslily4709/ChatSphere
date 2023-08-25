@@ -9,15 +9,7 @@ const DB_URL = process.env.DB_URL
 const PORT = process.env.PORT || 5000
 
 const app = express()
-app.use(cors(
-    {
-        'allowedHeaders': ['sessionId', 'Content-Type'],
-  'exposedHeaders': ['sessionId'],
-  'origin': '*',
-  'methods': 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  'preflightContinue': false
-    }
-))
+app.use(cors())
 app.use(express.json())
 app.use("/api/user",userRoutes)
 
