@@ -42,14 +42,14 @@ export const getAllUser = async(req,res) => {
 export const postMessages = async(req,res) => {
     const {from_id,to_id,text} = req.body
     try {
-        const unique_id = from_id+"-"+to_id
+        const unique_id = [from_id,to_id].sort().join('-').split('').reduce((hash, char) => (hash << 5) - hash + char.charCodeAt(0), 0).toString();
         let messageDocument = await MsgModel.findOne({ uniqueId: unique_id })
         if(!messageDocument){
             messageDocument = new MsgModel({uniqueId:unique_id})
         }
-        messageDocument.messages.push({text})
+        messageDocument.messages.push({text:text,sender:from_id,receiver:to_id})
         const updatedMessage = await messageDocument.save();
-        res.status(200).json({updatedMessage})    
+        res.status(200).json(updatedMessage)    
     } catch (error) {
         res.status(404).json({message:error})
     }

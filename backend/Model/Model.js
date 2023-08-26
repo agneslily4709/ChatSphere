@@ -12,6 +12,8 @@ export const UserModel = mongoose.model("User",userScheme)
 const messageSchema = mongoose.Schema({
     uniqueId:{type:String},
     messages:[{
+        sender:{type:String},
+        receiver:{type:String},
         text:{type:String},
         date: { type: Date, default: Date.now }, // Use Date.now to automatically generate the current date
         time: { type: String, default: function() {

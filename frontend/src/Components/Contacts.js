@@ -1,24 +1,21 @@
-<<<<<<< HEAD
 import React, { useState } from 'react'
 import {ContactContainer } from '../styles'
 import Welcome from './Welcome'
 import ChatWindow from './ChatWindow'
 import axios from "axios"
-import {useParams} from "react-router-dom"
-const Contacts = ({contacts,currentuser}) => {
-  // const [selectedChat,setSelectedChat] = useState({})
+
+const Contacts = ({contacts,currentuser,socket}) => {
   const [currentChat,setCurrentChat] = useState(undefined)
   const [chatMsgs,setChatMsgs] = useState(undefined)
 
   const handleChatChange = async(currentuser,contact) => {
-    setCurrentChat(contact)
-    const unique_id = currentuser._id+"-"+contact._id
-    axios.get(`http://localhost:5000/api/user/${unique_id}`)
+    const unique_id = [currentuser._id,contact._id].sort().join('-').split('').reduce((hash, char) => (hash << 5) - hash + char.charCodeAt(0), 0).toString();
+    await axios.get(`http://localhost:5000/api/user/${unique_id}`)
     .then((data)=>{
         setChatMsgs(data.data)
-        console.log(data.data)
     })
     .catch((error) =>console.log(error))
+    setCurrentChat(contact)
   }
   return (
     <>
@@ -39,10 +36,8 @@ const Contacts = ({contacts,currentuser}) => {
           {currentChat === undefined ?
         <Welcome currentuser={currentuser}/>
         :
-        <ChatWindow currentchat={currentChat} chatMsgs={chatMsgs}/>  
+        <ChatWindow currentchat={currentChat} chatMsgs={chatMsgs} socket={socket}/>  
         }
-            {/* <img className='profile-pic' src={currentuser.avatarImage+".png"}alt='Profile Picture'/>
-              <h1>{currentuser.username}</h1> */}
           </div>
       </div>
     </ContactContainer> 
@@ -50,53 +45,4 @@ const Contacts = ({contacts,currentuser}) => {
   )
 }
 
-=======
-import React, { useState } from 'react'
-import {ContactContainer } from '../styles'
-import Welcome from './Welcome'
-import ChatWindow from './ChatWindow'
-
-const Contacts = ({contacts,currentuser}) => {
-  const [selectedChat,setSelectedChat] = useState({})
-  const [currentChat,setCurrentChat] = useState(undefined)
-  // const changeCurrentChat = (index,contact) => {
-  //   setCurrentChat(index)
-  //   changeChat(contact)  
-  // }
-  const handleChatChange = (chat,contact) => {
-    console.log(chat,contact)
-    setCurrentChat(contact)
-  }
-  return (
-    <>
-    <ContactContainer>
-      <div className='chat'>
-        {/* <div className='side'> */}
-          <div className='left'>
-          <h1>Available People</h1>
-          {contacts.map((contact,index) => {
-            return (
-              <div onClick={()=>handleChatChange(index,contact)} key={contact._id} className='contact-item'>
-                <img className='contact-pic' src={contact.avatarImage+".png"}alt='Profile Picture'/>
-                <p>{contact.username}</p>
-              </div>
-            )
-          })}
-          </div>
-          <div className='right'> 
-          {currentChat === undefined ?
-        <Welcome currentuser={currentuser}/>
-        :
-        <ChatWindow currentchat={currentChat}/>  
-        }
-            {/* <img className='profile-pic' src={currentuser.avatarImage+".png"}alt='Profile Picture'/>
-              <h1>{currentuser.username}</h1> */}
-          </div>
-      </div>
-    </ContactContainer> 
-    </>
-  )
-}
-
->>>>>>> 7884c5567a33a00e3bdf1ae0e1acec48e83242f2
 export default Contacts
