@@ -13,36 +13,29 @@ const ChatWindow = ({currentchat,chatMsgs,socket}) => {
     useEffect(()=>{
       const userInfo = JSON.parse(localStorage.getItem("chat-sphere-user"))
       setCurrUser(userInfo)
+      if(chatMsgs){setMessages(chatMsgs.messages)}
+      else{setMessages([])}
     },[])
+
     const handleMsgSend = async(msg) => {
       const newMsg = {from_id:currUser._id,to_id:currentchat._id,text:msg}
       try {
         const response = await axios.post(`http://localhost:5000/api/user/sendMsg`,newMsg)
-        setMessages(response.data)
-        socket.current.emit("send-msg",newMsg)
-        // if(chatMsgs.messages){
-        //   const msgs = [...chatMsgs.messages,msg]
-        //   msgs.push(newMsg)
-        //   console.log(msgs)
-        //   setMessages(msgs);
-        //   console.log("===========")
-        //   console.log(chatMsgs.messages)
-        //   console.log("message sent successfully") 
-        // }
+        setMessages(response.data.messages)
+        socket.current.emit("message-send",newMsg)
       } catch (error) {
         console.log(error)
       }
     }
 
-
     useEffect(() => {
-      if (socket.current) {
-        socket.current.on("msg-recieve", (msg) => {
-          console.log("===>",msg)
-          setArrivalMessage({ message: msg });
+      if(socket.current)
+      {
+        socket.current.on("message-recieve", (msg) => {
+          setArrivalMessage(msg);
         });
       }
-    }, []);
+    }, [messages]);
 
 
     useEffect(() => {
@@ -64,10 +57,10 @@ const ChatWindow = ({currentchat,chatMsgs,socket}) => {
                 <h1>{currentchat.username}</h1>
               </div>
               <MessageContainer>
-                {chatMsgs ?
-                <>{chatMsgs.messages.map((chat,index)=>(
+                {messages && messages.length>0 ?
+                <>{messages.map((chat,index)=>(
                   <div ref={scrollRef} key={uuidv4()}  className='message'>
-                      <div className={chat.sender === currentchat._id ?"sender":"receiver" } >
+                      <div className={(chat.sender === currentchat._id) || (chat.from_id == currentchat._id) ?"sender":"receiver" } >
                           <p>{chat.text}</p>
                           <small>{chat.time}</small>
                       </div>

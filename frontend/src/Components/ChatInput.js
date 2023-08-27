@@ -7,7 +7,6 @@ const ChatInput = ({handleMsgSend}) => {
     e.preventDefault();
     if(msg.length>0)
     {
-      console.log(msg)
       handleMsgSend(msg)
       setMsg("")
     }

@@ -28,9 +28,15 @@ const Chat = () => {
   },[])
   useEffect(()=>{
     if(currUser){
-      socket.current = io("http://localhost:5000")
+      socket.current = io("http://localhost:5000/")
       socket.current.emit("add-user",currUser._id)
     }
+    socket.current.on("connect", () => {
+    });
+    
+    socket.current.on("error", (error) => {
+      console.error("Socket error:", error);
+    });
   },[currUser])
   return (
     <>

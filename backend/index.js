@@ -31,12 +31,15 @@ const onlineUsers = new Map();
 
 socket.on("connection", (socket) => {
     socket.on("add-user", (userId) => {
-        onlineUsers.set(userId, socket.id);
+        if(userId){
+            onlineUsers.set(userId, socket.id);
+        }
     });
-    socket.on("send-msg", (data) => {
-        const sendUserSocket = onlineUsers.get(data.to)
+
+    socket.on("message-send", (data) => {
+        const sendUserSocket = onlineUsers.get(data.to_id)
         if(sendUserSocket){
-            socket.to(sendUserSocket).emit("msg-recieve",data.msg)
+            socket.to(sendUserSocket).emit("message-recieve",data)
         }
     });
 });

@@ -47,7 +47,8 @@ export const postMessages = async(req,res) => {
         if(!messageDocument){
             messageDocument = new MsgModel({uniqueId:unique_id})
         }
-        messageDocument.messages.push({text:text,sender:from_id,receiver:to_id})
+        const newMessage = {text:text,sender:from_id,receiver:to_id}
+        messageDocument.messages.push(newMessage)
         const updatedMessage = await messageDocument.save();
         res.status(200).json(updatedMessage)    
     } catch (error) {
