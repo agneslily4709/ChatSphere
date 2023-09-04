@@ -1,6 +1,8 @@
 import React from 'react'
 import { NavBarContainer } from '../styles'
 import {Link} from "react-router-dom"
+import Logo from "../Assets/logo.png"
+
 const Navbar = () => {
   return (
     <>

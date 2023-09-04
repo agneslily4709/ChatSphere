@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { Link, json, useNavigate } from 'react-router-dom'
-import Logo from "../Assets/logo.png"
 import {FormContainer} from "../styles.js"
 import {ToastContainer,toast} from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css';
@@ -55,15 +54,14 @@ const Register = () => {
         <FormContainer>
         <form onSubmit={handleSubmit}>
             <div className='brand'>
-                <img src={Logo} alt='Logo'></img>
-                <h1>ChatSphere</h1>
+                <h1>Register</h1>
             </div>
             <input type='text' placeholder='Username' name="username"onChange={handleChange}/>
             <input type='emmail' placeholder='Email' name="email"onChange={handleChange}/>
             <input type='password' placeholder='Password' name="password"onChange={handleChange}/>
             <input type='password' placeholder='Confirm Password' name="confirmPassword"onChange={handleChange}/>
             <button type='submit'>Create account</button>
-            <span>Already have account ? <Link to="/login">Login</Link></span>
+            <span>Already have account ? <Link to="/login" style={{color:"#043927"}}>Login</Link></span>
         </form>
     </FormContainer>
     <ToastContainer/>

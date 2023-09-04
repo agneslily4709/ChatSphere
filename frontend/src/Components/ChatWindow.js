@@ -67,7 +67,7 @@ const ChatWindow = ({currentchat,chatMsgs,socket}) => {
                   </div>
                 ))}</>
                 :
-                <div>hello</div>}
+                <div></div>}
               </MessageContainer>
               <ChatInput handleMsgSend={handleMsgSend} />
       </ChatWindowContainer>

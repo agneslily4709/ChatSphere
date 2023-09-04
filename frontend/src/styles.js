@@ -1,14 +1,13 @@
 import styled from "styled-components"
 
 export const FormContainer = styled.div`
-    height:100vh;
+    height:80vh;
     width:100vw;
     display:flex;
     flex-direction:column;
     justify-content:center;
     gap: 1rem;
     align-items:center;
-    background-color: #f0f8ff;
     .brand{
         display:flex;
         align-items:center;
@@ -18,7 +17,7 @@ export const FormContainer = styled.div`
             height:5rem;
         }
         h1{
-            color:#1f3a93 ;
+            color:#043927;
             text-transform:uppercase;
         }
     }
@@ -31,17 +30,17 @@ export const FormContainer = styled.div`
         input{
             background-color:transparent;
             padding:1rem;
-            border: 0.1rem solid #3498db;
-            color:#1f3a93;
+            border: 0.1rem solid #76b258;
+            color::#043927;
             width:100%;
             font-size:1rem;
             &:focus{
-                border: #1f3a93 0.1rem solid;
+                border: #0439270.1rem solid;
                 outline:none
             }
         }
         button{
-            background-color:#3498db ;
+            background-color:#76b258 ;
             color:white;
             padding:1rem 1rem;
             border:none;
@@ -52,12 +51,12 @@ export const FormContainer = styled.div`
             text-transform:uppercase;
             transition:0.5s ease-in-out;
             &:hover{
-                background-color: #1f3a93;
-
+                background-color: #d0f0c0;
+                color:#76b258 ;
             }
         }
         span{
-            color:#1f3a93;
+            color:#043927;
             text-transform:uppercase;
             a{
                 text-decoration:none;
@@ -99,11 +98,28 @@ export const NavBarContainer = styled.div`
             text-decoration:none;
             cursor:pointer;
         }
+        @media (max-width: 768px) {
+                .navbar {
+                  flex-direction: column; /* Stack elements vertically on smaller screens */
+                  align-items: center; /* Center-align items vertically */
+                }
+              
+                h1 {
+                margin:15px;
+                  font-size: 20px; /* Further reduce font size for smaller screens */
+                }
+              
+                button {
+                  width: 70px; /* Reduce button width for smaller screens */
+                  margin-left: 0; /* Remove margin for smaller screens */
+                  margin-top: 10px; /* Add margin to separate buttons */
+                }
+              }
     }
 `
 
 export const ProfileContainer = styled.div`
-    height:100vh;
+    height:80vh;
     width:100vw;
     display:flex;
     flex-direction:column;
@@ -121,6 +137,11 @@ export const ProfileContainer = styled.div`
         .avatar{
             height:100px;
             width:100px;
+        }
+        @media (max-width: 768px) {
+                display:flex;
+                flex-direction:column;
+                align-items:center;
         }
     }
 `
@@ -268,6 +289,5 @@ export const MessageContainer = styled.div`
           padding: 5px;
           border-radius: 10px; /* Rounded corners for the message bubble */
         }
-        
     }
 `
