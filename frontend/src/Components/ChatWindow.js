@@ -15,12 +15,12 @@ const ChatWindow = ({currentchat,chatMsgs,socket}) => {
       setCurrUser(userInfo)
       if(chatMsgs){setMessages(chatMsgs.messages)}
       else{setMessages([])}
-    },[])
+    },[chatMsgs])
 
     const handleMsgSend = async(msg) => {
       const newMsg = {from_id:currUser._id,to_id:currentchat._id,text:msg}
       try {
-        const response = await axios.post(`http://localhost:5000/api/user/sendMsg`,newMsg)
+        const response = await axios.post(`https://chat-sphere-backend.onrender.com/api/user/sendMsg`,newMsg)
         setMessages(response.data.messages)
         socket.current.emit("message-send",newMsg)
       } catch (error) {
@@ -35,7 +35,7 @@ const ChatWindow = ({currentchat,chatMsgs,socket}) => {
           setArrivalMessage(msg);
         });
       }
-    }, [messages]);
+    }, [messages,socket]);
 
 
     useEffect(() => {
@@ -60,7 +60,7 @@ const ChatWindow = ({currentchat,chatMsgs,socket}) => {
                 {messages && messages.length>0 ?
                 <>{messages.map((chat,index)=>(
                   <div ref={scrollRef} key={uuidv4()}  className='message'>
-                      <div className={(chat.sender === currentchat._id) || (chat.from_id == currentchat._id) ?"sender":"receiver" } >
+                      <div className={(chat.sender === currentchat._id) || (chat.from_id === currentchat._id) ?"sender":"receiver" } >
                           <p>{chat.text}</p>
                           <small>{chat.time}</small>
                       </div>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link, json, useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import {FormContainer} from "../styles.js"
 import {ToastContainer,toast} from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css';
@@ -8,19 +8,32 @@ import axios from "axios"
 const Register = () => {
     const [user,setUser] = useState({username:"",email:"",password:"",confirmPassword:"",avatarImage:""})
     const navigate = useNavigate()
-    const handleSubmit = async(e) => {
-        e.preventDefault()
-        if(handleValidation()){
-            const newUser = {username:user.username,email:user.email,password:user.password,avatarImage:`https://api.multiavatar.com/45678945/${Math.round(Math.random()*1000)}`}
-            await axios.post(`http://localhost:5000/api/user/register`,newUser)
-            navigate("/login")
-        }
-    }
     const toatifyOptions= { position:"top-right", autoClose:8000, theme:"dark", draggable:true }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (handleValidation()) {
+          const newUser = {
+            username: user.username,
+            email: user.email,
+            password: user.password,
+            avatarImage: `https://api.multiavatar.com/45678945/${Math.round(
+              Math.random() * 1000
+            )}`,
+          };
+          try {
+            await axios.post(`https://chat-sphere-backend.onrender.com/api/user/register`, newUser);
+            toast.success('Registration successful! You can now log in.', toatifyOptions);
+            navigate('/login');
+          } catch (error) {
+            toast.error(`Registration Error ${error.response.data.message}`,toatifyOptions);
+          }
+        }
+}
 
     const handleValidation = ()=>{
         const {username,email,password,confirmPassword} = user;
-        if(password != confirmPassword){
+        if(password !== confirmPassword){
             toast.error("Password and Confirm Password should be same",toatifyOptions)
             return false
         }
@@ -48,7 +61,7 @@ const Register = () => {
         if(localStorage.getItem("chat-sphere-user")){
           navigate("/")
         }
-      },[])
+      },[navigate])
   return (
     <>
         <FormContainer>

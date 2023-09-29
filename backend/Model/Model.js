@@ -25,13 +25,3 @@ const messageSchema = mongoose.Schema({
     }],
 })
 export const MsgModel = mongoose.model("Message",messageSchema)
-/*
-Messages{
-    id = "from"+"Send"
-    message[
-        data:
-        timestamp:
-        time:
-    ]
-}
-*/

@@ -11,24 +11,23 @@ const Chat = () => {
   const [loading,setLoading] = useState(true)
   const [currUser,setCurrUser] = useState({})
   const navigate = useNavigate()
-  // const [currentChat,setCurrentChat] = useState(undefined)
   const currentUser = JSON.parse(localStorage.getItem("chat-sphere-user"))
-  const loadData = async() => {
-    const data = await axios.get(`http://localhost:5000/api/user/`)
-    const filteredData = data.data.filter(item => item._id !== currentUser._id);
-    setCurrUser(currentUser)
-    setAllData(filteredData)
-    setLoading(false)
-  }
   useEffect(()=>{
     if(!localStorage.getItem("chat-sphere-user")){
       navigate("/login")
     }
+     async function loadData() {
+        const data = await axios.get(`https://chat-sphere-backend.onrender.com/api/user/`)
+        const filteredData = data.data.filter(item => item._id !== currentUser._id);
+        setCurrUser(currentUser)
+        setAllData(filteredData)
+        setLoading(false)
+      }
     loadData()
-  },[])
+  },[currentUser,navigate])
   useEffect(()=>{
     if(currUser){
-      socket.current = io("http://localhost:5000/")
+      socket.current = io("https://chat-sphere-backend.onrender.com/")
       socket.current.emit("add-user",currUser._id)
     }
     socket.current.on("connect", () => {

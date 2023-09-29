@@ -98,7 +98,7 @@ export const NavBarContainer = styled.div`
             text-decoration:none;
             cursor:pointer;
         }
-        @media (max-width: 768px) {
+        @media screen and (min-width:720px) and (max-width:1080px){
                 .navbar {
                   flex-direction: column; /* Stack elements vertically on smaller screens */
                   align-items: center; /* Center-align items vertically */
@@ -139,7 +139,7 @@ export const ProfileContainer = styled.div`
             width:100px;
         }
         @media (max-width: 768px) {
-                display:flex;
+               display:flex;
                 flex-direction:column;
                 align-items:center;
         }
@@ -178,9 +178,17 @@ export const ContactContainer = styled.div`
         display:grid;
         grid-template-columns:30% 70%;
         background-color:aliceblue;
-        @media screen and (min-width:720px) and (max-width:1080px)
-        {
-            grid-template-columns:35% 65%;  
+        @media (max-width: 768px) {
+            grid-template-columns:20% 80%;  
+            .contact-item{
+                align-items:center;
+            }
+            .chat-tagline{
+                font-size:15px;
+            }
+            .username{
+                display:none;
+            }
         }
         .left{
             background-color:#043927;

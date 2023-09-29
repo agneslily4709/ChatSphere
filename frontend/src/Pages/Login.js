@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link, json, useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import {FormContainer} from "../styles.js"
 import {ToastContainer,toast} from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css';
@@ -9,18 +9,23 @@ const Login = () => {
   const [user,setUser] = useState({username:"",password:""})
 
   const navigate = useNavigate()
-  
-  const handleSubmit = async(e) => {
-      e.preventDefault()
-      if(handleValidation()){
-          const loginUser = {username:user.username,password:user.password}
-          const response = await axios.post(`http://localhost:5000/api/user/login`,loginUser)
-          localStorage.setItem("chat-sphere-user",JSON.stringify(response.data))
-          navigate("/")
-        }
-  }
   const toatifyOptions= { position:"top-right", autoClose:8000, theme:"dark", draggable:true }
 
+  const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (handleValidation()) {
+          const loginUser = { username: user.username, password: user.password };
+          try {
+            const response = await axios.post( 'https://chat-sphere-backend.onrender.com/api/user/login', loginUser);
+            localStorage.setItem('chat-sphere-user', JSON.stringify(response.data));
+            toast.success('Login successful!',toatifyOptions)
+            navigate('/');
+          } catch (error) {
+            toast.error(`Login Error ${error.response.data.message}`, toatifyOptions);
+          }
+        }
+      };
+      
   const handleValidation = ()=>{
       const {username,password} = user;
       if(password.length ===0 || username.length === 0){
@@ -41,7 +46,7 @@ const Login = () => {
     if(localStorage.getItem("chat-sphere-user")){
       navigate("/")
     }
-  },[])
+  },[navigate])
   return (
     <>
     

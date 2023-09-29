@@ -10,7 +10,7 @@ const Contacts = ({contacts,currentuser,socket}) => {
 
   const handleChatChange = async(currentuser,contact) => {
     const unique_id = [currentuser._id,contact._id].sort().join('-').split('').reduce((hash, char) => (hash << 5) - hash + char.charCodeAt(0), 0).toString();
-    await axios.get(`http://localhost:5000/api/user/${unique_id}`)
+    await axios.get(`https://chat-sphere-backend.onrender.com/api/user/${unique_id}`)
     .then((data)=>{
         setChatMsgs(data.data)
     })
@@ -22,12 +22,12 @@ const Contacts = ({contacts,currentuser,socket}) => {
     <ContactContainer>
       <div className='chat'>
           <div className='left'>
-          <h1>Available People</h1>
+          <h1 className='chat-tagline'>Available People</h1>
           {contacts.map((contact,index) => {
             return (
               <div onClick={()=>handleChatChange(currentuser,contact)} key={index} className='contact-item'>
-                <img className='contact-pic' src={contact.avatarImage+".png"}alt='Profile Picture'/>
-                <p>{contact.username}</p>
+                <img className='contact-pic' src={contact.avatarImage+".png"}alt={`Pic ${contact.username}`}/>
+                <p className='username'>{contact.username}</p>
               </div>
             )
           })}
